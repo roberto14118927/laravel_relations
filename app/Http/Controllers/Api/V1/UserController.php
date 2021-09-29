@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 // Importaciones del modelo
 use App\Models\User;
 
+// Importaciones recursos
+use App\Http\Resources\V1\UserResource;
+
 class UserController extends Controller
 {
     /**
@@ -17,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::all();
+        return UserResource::collection($user);
     }
 
     /**
@@ -53,7 +57,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return new UserResource($user);
+        //Controlar exception dentro de un response
     }
 
     /**
@@ -65,7 +71,47 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+        $user = User::findOrFail($id);
+        
+        // $request->validate([
+        //     'name' => 'max:255',
+        //     'email' => 'email|max:255|unique:users,email,' . $user->id,
+        //     'password' => 'min:6|confirmed',
+        // ]);
+
+        // $user->update($request->all());
+
+        // return $user;
+
+        $formato = [
+            'email' => 'email|unique:users,email,' . $user->id,
+            'password' => 'min:8|confirmed'
+        ];
+
+        $this->validate($request, $formato);
+
+        if($request->has('name')){
+            $user->name = $request->name;
+            // return response()->json([$request->name],200);
+        }
+
+        if($request->has('email')){
+            $user->email = $request->email;
+        }
+
+        if($request->has('password')){
+            $user->email = bcrypt($request->email);
+        }
+
+        // if(!$user->isDirty()){
+        //     return response()->json(['data'=>'No hay cambios'],200);
+        // }
+
+        $user->save();
+
+        return response()->json(['data'=>$user],200);
     }
 
     /**

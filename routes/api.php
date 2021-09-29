@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\V1\CompradorController as CompradorV1;
 use App\Http\Controllers\Api\V1\VendedorController as VendedorV1;
 
 Route::apiResource('v1/user', UserV1::class)
-    ->only(['index', 'show', 'store']); 
+    ->only(['index', 'show', 'store', 'update']); 
 
 Route::apiResource('v1/pagar', PagarV1::class)
     ->only(['index', 'show', 'store', 'update', 'destroy'])

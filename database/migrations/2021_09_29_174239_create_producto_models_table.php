@@ -20,7 +20,7 @@ class CreateProductoModelsTable extends Migration
             $table->integer('vendedor_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('vendedor_id')->reference('id')->on('users');
+            $table->foreign('vendedor_id')->references('id')->on('users');
         });
     }
 

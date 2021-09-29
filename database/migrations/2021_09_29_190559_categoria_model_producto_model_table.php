@@ -17,8 +17,8 @@ class CategoriaModelProductoModelTable extends Migration
             $table->integer('categoria_id')->unsigned();
             $table->integer('producto_id')->unsigned();
 
-            $table->foreign('categoria_id')->reference('id')->on('categoria_models');
-            $table->foreign('producto_id')->reference('id')->on('producto_models');
+            $table->foreign('categoria_id')->references('id')->on('categoria_models');
+            $table->foreign('producto_id')->references('id')->on('producto_models');
         });
     }
 
