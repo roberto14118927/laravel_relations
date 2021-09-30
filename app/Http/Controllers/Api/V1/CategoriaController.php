@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-// Importaciones de modelos
-use App\Models\Comprador\CompradorModel;
+// Importaciones de modelo
+use App\Models\Categoria\CategoriaModel;
 
-class CompradorController extends Controller
+class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,9 @@ class CompradorController extends Controller
      */
     public function index()
     {
-        $compradores = CompradorModel::has('pagos')->get();
-        return response()->json(['data' => $compradores], 200);
+        //
+        $categoria = CategoriaModel::all();
+        return $categoria;
     }
 
     /**
@@ -29,7 +30,15 @@ class CompradorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categoria_models',
+        ]);
+
+        $categoria = CategoriaModel::create([
+            'name' => $request->get('name')
+        ]);
+
+        return response($categoria, 200);
     }
 
     /**
@@ -40,7 +49,8 @@ class CompradorController extends Controller
      */
     public function show($id)
     {
-        //
+        $categoria = CategoriaModel::findOrFail($id);
+        return $categoria;
     }
 
     /**
@@ -52,7 +62,25 @@ class CompradorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoria = CategoriaModel::findOrFail($id);
+
+        $formato = [
+            'name' => 'required|string|max:255'
+        ];
+
+        $this->validate($request, $formato);
+
+        if ($request->has('name')) {
+            $categoria->name = $request->name;
+        }
+
+        if (!$categoria->isDirty()) {
+            return response()->json(['data' => 'No hay cambios'], 422);
+        }
+
+        $categoria->save();
+
+        return response()->json(['data' => $categoria], 200);
     }
 
     /**

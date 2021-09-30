@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\PagarController as PagarV1;
 use App\Http\Controllers\Api\V1\ProductoController as ProductoV1;
 use App\Http\Controllers\Api\V1\CompradorController as CompradorV1;
 use App\Http\Controllers\Api\V1\VendedorController as VendedorV1;
+use App\Http\Controllers\Api\V1\CategoriaController as CategoriaV1;
 
 Route::apiResource('v1/user', UserV1::class)
     ->only(['index', 'show', 'store', 'update', 'destroy']); 
@@ -20,9 +21,13 @@ Route::apiResource('v1/producto', ProductoV1::class)
     ->middleware('auth:api');
 
 Route::apiResource('v1/comprador', CompradorV1::class)
-    ->only(['index', 'show', 'store', 'update', 'destroy'])
+    ->only(['index', 'show'])
     ->middleware('auth:api');
 
 Route::apiResource('v1/vendedor', VendedorV1::class)
     ->only(['index', 'show', 'store', 'update', 'destroy'])
+    ->middleware('auth:api');
+
+Route::apiResource('v1/categoria', CategoriaV1::class)
+    ->only(['index', 'show', 'store', 'update'])
     ->middleware('auth:api');
