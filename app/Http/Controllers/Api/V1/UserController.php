@@ -34,19 +34,18 @@ class UserController extends Controller
     {
         //
         $request->validate([
-            'name'=> 'required|string|max:255',
-            'email'=> 'required|string|email|max:255|unique:users',
-            'password'=> 'required|string|min:8|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => Hash::make( $request->get('name')),
+            'password' => Hash::make($request->get('name')),
         ]);
 
         return response($user, 200);
-
     }
 
     /**
@@ -74,16 +73,6 @@ class UserController extends Controller
 
 
         $user = User::findOrFail($id);
-        
-        // $request->validate([
-        //     'name' => 'max:255',
-        //     'email' => 'email|max:255|unique:users,email,' . $user->id,
-        //     'password' => 'min:6|confirmed',
-        // ]);
-
-        // $user->update($request->all());
-
-        // return $user;
 
         $formato = [
             'email' => 'email|unique:users,email,' . $user->id,
@@ -92,26 +81,25 @@ class UserController extends Controller
 
         $this->validate($request, $formato);
 
-        if($request->has('name')){
+        if ($request->has('name')) {
             $user->name = $request->name;
-            // return response()->json([$request->name],200);
         }
 
-        if($request->has('email')){
+        if ($request->has('email')) {
             $user->email = $request->email;
         }
 
-        if($request->has('password')){
-            $user->email = bcrypt($request->email);
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
         }
 
-        // if(!$user->isDirty()){
-        //     return response()->json(['data'=>'No hay cambios'],200);
-        // }
+        if (!$user->isDirty()) {
+            return response()->json(['data' => 'No hay cambios'], 422);
+        }
 
         $user->save();
 
-        return response()->json(['data'=>$user],200);
+        return response()->json(['data' => $user], 200);
     }
 
     /**
@@ -123,5 +111,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json(['data'=> $user], 200);
+        
     }
 }
