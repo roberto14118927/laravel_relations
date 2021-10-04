@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+// Importacion de modelos
+use App\Models\Vendedor\VendedorModel;
+
 class VendedorController extends Controller
 {
     /**
@@ -14,7 +17,8 @@ class VendedorController extends Controller
      */
     public function index()
     {
-        //
+        $vendedores = VendedorModel::has('productos')->get();
+        return response()->json(['data' => $vendedores], 200);
     }
 
     /**
@@ -37,6 +41,8 @@ class VendedorController extends Controller
     public function show($id)
     {
         //
+        $vendedor = VendedorModel::has('productos')->findOrFail($id);
+        return response()->json(['data' => $vendedor], 200);
     }
 
     /**

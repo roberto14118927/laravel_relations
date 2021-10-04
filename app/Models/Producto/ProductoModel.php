@@ -13,22 +13,25 @@ use App\Models\Pagar\PagarModel;
 class ProductoModel extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'nombre',
         'cantidad',
-        'vendedor_id'
+        'vendedor_model_id'
     ];
 
-    public function categorias(){
+    public function categorias()
+    {
         return $this->belongsToMany(CategoriaModel::class);
     }
 
-    public function vendedor(){
+    public function vendedor()
+    {
         return $this->belongsTo(VendedorModel::class);
     }
 
-    public function pagar(){
+    public function pagar()
+    {
         return $this->hasMany(PagarModel::class);
     }
 }

@@ -16,15 +16,15 @@ class CreatePagarModelsTable extends Migration
         Schema::create('pagar_models', function (Blueprint $table) {
             $table->id();
             $table->integer('cantidad')->unsigned();
-            $table->integer('comprador_id')->unsigned();
-            $table->integer('producto_id')->unsigned();
+            $table->integer('comprador_model_id')->unsigned();
+            $table->integer('producto_model_id')->unsigned();
             $table->timestamps();
 
             // Creando referencias 
             // * Comprador
             // * Producto
-            $table->foreign('comprador_id')->references('id')->on('users');
-            $table->foreign('producto_id')->references('id')->on('producto_models');
+            $table->foreign('comprador_model_id')->references('id')->on('users');
+            $table->foreign('producto_model_id')->references('id')->on('producto_models');
 
 
             

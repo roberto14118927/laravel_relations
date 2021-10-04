@@ -17,10 +17,10 @@ class CreateProductoModelsTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('cantidad')->unsigned();
-            $table->integer('vendedor_id')->unsigned();
+            $table->integer('vendedor_model_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('vendedor_id')->references('id')->on('users');
+            $table->foreign('vendedor_model_id')->references('id')->on('users');
         });
     }
 

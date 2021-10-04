@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+// Importando modelos 
+use App\Models\Producto\ProductoModel;
+
 class ProductoController extends Controller
 {
     /**
@@ -14,7 +17,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $producto = ProductoModel::all();
+        return $producto;
     }
 
     /**
@@ -25,7 +29,19 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required',
+            'cantidad' => 'required',
+            'vendedor_model_id' => 'required',
+        ]);
+
+        $producto = ProductoModel::create([
+            'nombre' => $request->get('nombre'),
+            'cantidad' => $request->get('cantidad'),
+            'vendedor_model_id' => $request->get('vendedor_model_id')
+        ]);
+
+        return response($producto, 200);
     }
 
     /**

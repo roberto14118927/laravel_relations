@@ -13,16 +13,18 @@ class PagarModel extends Model
 {
     use HasFactory;
 
+    
+
     protected $fillable = [
         'cantidad',
-        'comprador_id',
-        'producto_id'
+        'comprador_model_id',
+        'producto_model_id'
     ];
 
     // Agrear modelos a relacionar 
 
     public function comprador(){
-        return $this->belongsTo(CompradorMode::class);
+        return $this->belongsTo(CompradorModel::class);
     }
 
     public function productos(){

@@ -14,11 +14,11 @@ class CategoriaModelProductoModelTable extends Migration
     public function up()
     {
         Schema::create('categoria_producto', function (Blueprint $table) {
-            $table->integer('categoria_id')->unsigned();
-            $table->integer('producto_id')->unsigned();
+            $table->integer('categoria_model_id')->unsigned();
+            $table->integer('producto_model_id')->unsigned();
 
-            $table->foreign('categoria_id')->references('id')->on('categoria_models');
-            $table->foreign('producto_id')->references('id')->on('producto_models');
+            $table->foreign('categoria_model_id')->references('id')->on('categoria_models');
+            $table->foreign('producto_model_id')->references('id')->on('producto_models');
         });
     }
 

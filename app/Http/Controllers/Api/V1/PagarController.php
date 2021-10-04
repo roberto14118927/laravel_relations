@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+// Importando Modelos 
+use App\Models\Pagar\PagarModel;
+
 class PagarController extends Controller
 {
     /**
@@ -14,7 +17,8 @@ class PagarController extends Controller
      */
     public function index()
     {
-        //
+        $producto = PagarModel::all();
+        return $producto;
     }
 
     /**
@@ -25,7 +29,19 @@ class PagarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'cantidad' => 'required',
+            'comprador_model_id' => 'required',
+            'producto_model_id' => 'required',
+        ]);
+
+        $pagar = PagarModel::create([
+            'cantidad' => $request->get('cantidad'),
+            'comprador_model_id' => $request->get('comprador_model_id'),
+            'producto_model_id' => $request->get('producto_model_id')
+        ]);
+
+        return response($pagar, 200);
     }
 
     /**

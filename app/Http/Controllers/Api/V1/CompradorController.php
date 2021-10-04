@@ -41,6 +41,8 @@ class CompradorController extends Controller
     public function show($id)
     {
         //
+        $comprador = CompradorModel::has('pagos')->findOrFail($id);
+        return response()->json(['data' => $comprador], 200);
     }
 
     /**
